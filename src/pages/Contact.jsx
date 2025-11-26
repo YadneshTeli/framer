@@ -9,6 +9,7 @@ const Contact = () => {
     subject: '',
     message: '',
   });
+  const [submitted, setSubmitted] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -17,10 +18,10 @@ const Contact = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Handle form submission
-    console.log('Form submitted:', formData);
-    alert('Message sent successfully!');
+    // In production, this would send the form data to a backend
+    setSubmitted(true);
     setFormData({ name: '', email: '', subject: '', message: '' });
+    setTimeout(() => setSubmitted(false), 3000);
   };
 
   return (
@@ -52,10 +53,10 @@ const Contact = () => {
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.3, duration: 0.5 }}
             >
-              <h2>Let&apos;s Connect</h2>
+              <h2>Let's Connect</h2>
               <p>
-                Whether you&apos;re interested in prints, licensing, collaborations,
-                or just want to chat about photography, I&apos;d love to hear from you.
+                Whether you're interested in prints, licensing, collaborations,
+                or just want to chat about photography, I'd love to hear from you.
               </p>
 
               <div className="contact-details">
@@ -158,8 +159,17 @@ const Contact = () => {
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >
-                Send Message
+                {submitted ? 'Message Sent!' : 'Send Message'}
               </motion.button>
+              {submitted && (
+                <motion.p
+                  className="success-message"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                >
+                  Thank you for your message. We'll get back to you soon!
+                </motion.p>
+              )}
             </motion.form>
           </div>
         </div>
